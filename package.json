@@ -1,0 +1,31 @@
+{
+  "name": "nowplaying",
+  "version": "0.0.1",
+  "description": "The nowplaying page is a simple one-page app where visitors can visualize most recent videos being shared on Twitter by people nearby.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./server/app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vianch/nowplaying.git"
+  },
+  "keywords": [
+    "NowPlaying"
+  ],
+  "author": "Victor Andres Chavarro Perez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vianch/nowplaying/issues"
+  },
+  "homepage": "https://github.com/vianch/nowplaying",
+  "private": true,
+  "dependencies": {
+    "express": "^4.13.1",
+    "morgan": "^1.6.1"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0"
+  }
+}
