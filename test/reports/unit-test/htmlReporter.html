@@ -9,18 +9,18 @@
     <h1>Unit Test Results</h1>
     <table cellspacing="0" cellpadding="0" border="0">
       <tr class="overview">
-        <td colspan="3" title="Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/534.34 (KHTML, like Gecko) PhantomJS/1.9.8 Safari/534.34">Browser: PhantomJS 1.9.8 (Windows 8)</td>
+        <td colspan="3" title="Mozilla/5.0 (Macintosh; Intel Mac OS X) AppleWebKit/534.34 (KHTML, like Gecko) PhantomJS/1.9.8 Safari/534.34">Browser: PhantomJS 1.9.8 (Mac OS X 0.0.0)</td>
       </tr>
       <tr class="overview">
-        <td colspan="3">Timestamp: 2015-04-17T07:18:49</td>
+        <td colspan="3">Timestamp: 2015-07-15T17:04:45</td>
       </tr>
       <tr>
         <td colspan="3">
-          10 tests / 
-          0 errors / 
-          0 failures / 
+          1 tests / 
+          1 errors / 
+          1 failures / 
           0 skipped / 
-          runtime: 0.009s
+          runtime: 0.028s
         </td>
       </tr>
       <tr class="header">
@@ -28,55 +28,15 @@
         <td>Spec</td>
         <td>Suite / Results</td>
       </tr>
-      <tr class="pass">
-        <td>Passed in 0.002s</td>
-        <td>Should exist callRestService function to load any rest request</td>
-        <td>NavExercise-master unit test &raquo; Services</td>
-      </tr>
-      <tr class="pass">
-        <td>Passed in 0.001s</td>
-        <td>Should exist HUGE navigation controller</td>
-        <td>NavExercise-master unit test &raquo; Huge navigation controller (Render data)</td>
-      </tr>
-      <tr class="pass">
-        <td>Passed in 0s</td>
-        <td>Should exist HUGE navigation loadNavigationData</td>
-        <td>NavExercise-master unit test &raquo; Huge navigation controller (Render data)</td>
-      </tr>
-      <tr class="pass">
-        <td>Passed in 0.001s</td>
-        <td>Should exist render navigation html method</td>
-        <td>NavExercise-master unit test &raquo; Huge navigation controller (Render data)</td>
-      </tr>
-      <tr class="pass">
-        <td>Passed in 0.001s</td>
-        <td>Should exist html sub menu generator method</td>
-        <td>NavExercise-master unit test &raquo; Huge navigation controller (Render data)</td>
-      </tr>
-      <tr class="pass">
-        <td>Passed in 0s</td>
-        <td>Should return string length 0 if  sub menu generator parameter is empty</td>
-        <td>NavExercise-master unit test &raquo; Huge navigation controller (Render data)</td>
-      </tr>
-      <tr class="pass">
-        <td>Passed in 0.001s</td>
-        <td>Should return string length greater than 0 if  sub menu generator parameter is not empty</td>
-        <td>NavExercise-master unit test &raquo; Huge navigation controller (Render data)</td>
-      </tr>
-      <tr class="pass">
-        <td>Passed in 0.002s</td>
-        <td>should call the rest services doing a fake</td>
-        <td>NavExercise-master unit test &raquo; Huge navigation controller (Render data)</td>
-      </tr>
-      <tr class="pass">
-        <td>Passed in 0.001s</td>
-        <td>Should exist on click navigation event</td>
-        <td>NavExercise-master unit test &raquo; HUGE navigation controller events</td>
-      </tr>
-      <tr class="pass">
-        <td>Passed in 0s</td>
-        <td>Should exist openUrl method in the controller</td>
-        <td>NavExercise-master unit test &raquo; HUGE navigation controller events</td>
+      <tr class="fail">
+        <td>Failed</td>
+        <td>Should exist videoUrl when directive is called</td>
+        <td>
+          Tweet video directive  &raquo; Initialize data
+          <br />TypeError: 'undefined' is not a function (evaluating 'expect(element.isolateScope().videoUrl).not.tobeUndfined()')
+    at /Users/VIANCH/Documents/dev/nowplaying/test/unit/directives/tweetVideoDirectiveSpec.js:28
+
+        </td>
       </tr>
     </table>
     <hr/>

@@ -26,7 +26,7 @@ module.exports = function(grunt) {
                 options: {
                     transform: ['babelify'],
                     browserifyOptions: {
-                        debug: true
+                        debug: false
                     }
                 }
             }
@@ -34,7 +34,7 @@ module.exports = function(grunt) {
 
         uglify: {
             options: {
-                sourceMap: false,
+                sourceMap: true,
                 banner: '/*! <%= grunt.template.today("yyyy-mm-dd") %> */\n'
             },
             build: {
@@ -64,7 +64,14 @@ module.exports = function(grunt) {
                     ext: '.min.css'
                 }]
             }
-        }
+        },
+
+        //unit test
+        karma: {
+            unit: {
+                configFile: './test/config/karma.conf.js'
+            }
+        },
 
 
     });
@@ -75,6 +82,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-karma');
 
     //custom taks
     grunt.registerTask('compile-js',['browserify','uglify']);
