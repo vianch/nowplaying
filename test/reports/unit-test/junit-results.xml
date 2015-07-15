@@ -1,19 +1,16 @@
 <?xml version="1.0"?>
 <testsuites>
-  <testsuite name="PhantomJS 1.9.8 (Mac OS X 0.0.0)" package="unit" timestamp="2015-07-15T17:04:44" id="0" hostname="win-n610e151dbc.visionsoftware.loc">
+  <testsuite name="PhantomJS 1.9.8 (Windows 8 0.0.0)" package="unit" timestamp="2015-07-15T17:39:48" id="0" hostname="WIN-PP5BB4NJ5GK">
     <properties>
-      <property name="browser.fullName" value="Mozilla/5.0 (Macintosh; Intel Mac OS X) AppleWebKit/534.34 (KHTML, like Gecko) PhantomJS/1.9.8 Safari/534.34"/>
+      <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/534.34 (KHTML, like Gecko) PhantomJS/1.9.8 Safari/534.34"/>
     </properties>
   </testsuite>
-  <testsuite name="PhantomJS 1.9.8 (Mac OS X 0.0.0)" package="unit" timestamp="2015-07-15T17:04:45" id="0" hostname="win-n610e151dbc.visionsoftware.loc" tests="1" errors="1" failures="1" time="0.028">
+  <testsuite name="PhantomJS 1.9.8 (Windows 8 0.0.0)" package="unit" timestamp="2015-07-15T17:39:48" id="0" hostname="WIN-PP5BB4NJ5GK" tests="2" errors="0" failures="0" time="0.066">
     <properties>
-      <property name="browser.fullName" value="Mozilla/5.0 (Macintosh; Intel Mac OS X) AppleWebKit/534.34 (KHTML, like Gecko) PhantomJS/1.9.8 Safari/534.34"/>
+      <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/534.34 (KHTML, like Gecko) PhantomJS/1.9.8 Safari/534.34"/>
     </properties>
-    <testcase name="Should exist videoUrl when directive is called" time="0.028" classname="unit PhantomJS 1.9.8 (Mac OS X 0.0.0).Tweet video directive  Initialize data">
-      <failure type="">TypeError: &apos;undefined&apos; is not a function (evaluating &apos;expect(element.isolateScope().videoUrl).not.tobeUndfined()&apos;)
-    at /Users/VIANCH/Documents/dev/nowplaying/test/unit/directives/tweetVideoDirectiveSpec.js:28
-</failure>
-    </testcase>
+    <testcase name="Should exist videoUrl when directive is called" time="0.059" classname="unit PhantomJS 1.9.8 (Windows 8 0.0.0).Tweet video directive  Initialize data"/>
+    <testcase name="Should exist comment when directive is called" time="0.007" classname="unit PhantomJS 1.9.8 (Windows 8 0.0.0).Tweet video directive  Initialize data"/>
     <system-out><![CDATA[
 ]]></system-out>
     <system-err/>

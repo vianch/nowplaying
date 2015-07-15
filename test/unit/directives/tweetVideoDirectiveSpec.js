@@ -25,7 +25,11 @@ describe("Tweet video directive ", function() {
     describe("Initialize data",function(){
 
         it("Should exist videoUrl when directive is called", function(){
-            expect(element.isolateScope().videoUrl).not.tobeUndfined();
+            expect(element.isolateScope().videoUrl).not.toBeUndefined();
+        });
+
+        it("Should exist comment when directive is called", function(){
+            expect(element.isolateScope().comment).not.toBeUndefined();
         });
 
     });
