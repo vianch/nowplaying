@@ -1,4 +1,5 @@
 @import "libs/reset.css";
+@import "libs/font-awesome.css";
 @import "fonts/lato.css";
 @import "libs/bootstrap.min.css";
 .np-normal-font {
@@ -6,15 +7,101 @@
 }
 /* CSS DIRECTORY
   0. =COMMONS
-  1. =HEADER & FOOTER
-  2. =BODY
-  3. =PORTFOLIO
+  1. =HEADER
+  2. =VIDEO URL CONTAINER
+  3. =VIDEO WRAPPER
+  4. =VIDEO ITEM
 */
 body {
   background: #edebe6;
   font-size: 16px;
   font-family: 'latoregular', sans-serif;
+  color: #403b33;
 }
 a {
   text-decoration: none;
+}
+.vid {
+  position: relative;
+  padding-bottom: 56.25%;
+  padding-top: 30px;
+  height: 0;
+  overflow: hidden;
+}
+.vid iframe,
+.vid object,
+.vid embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+header {
+  text-align: center;
+}
+header h1 {
+  font-size: 2.75em;
+  color: #d3643b;
+  text-transform: uppercase;
+  margin: 30px;
+}
+header p {
+  margin-bottom: 40px;
+}
+.np-video-url {
+  background: #94c7b6;
+  padding: 20px 20px 5px;
+}
+.np-video-url input {
+  font-size: 0.875em;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border: 0 solid #d6e1c7;
+}
+.np-video-url .np-tweet-button-container {
+  margin-right: 0;
+  padding-right: 0;
+}
+.np-video-url button {
+  height: 23px;
+  border-radius: 0;
+  -moz-border-radius: 0;
+  -webkit-border-radius: 0;
+  border: 0 solid #d6e1c7;
+  color: #d6e1c7;
+  background-color: #d3643b;
+  font-size: 12px;
+  text-align: center;
+  line-height: 0.75em;
+}
+.np-video-wrapper {
+  margin-top: 40px;
+}
+.np-video-item {
+  background: #d6e1c7;
+  margin-bottom: 20px;
+  padding: 0 0 20px;
+}
+.np-video-item h1 {
+  font-size: 1.875em;
+  margin: 15px;
+  font-weight: bold;
+}
+.np-video-item .np-twitter-name {
+  display: block;
+  min-width: 160px;
+  position: relative;
+  left: 10px;
+  top: 2px;
+}
+.np-video-item .np-tweet-text {
+  background: #EDEBE6;
+  font-size: 1.25em;
+  margin-top: 15px;
+  padding: 15px;
+  height: auto;
+  overflow: auto;
+  max-height: 200px;
 }

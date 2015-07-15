@@ -1,4 +1,14 @@
 //mixins
 .np-normal-font{
-  font-family: 'latoregular',sans-serif;
+  font-family: @np-font;
+}
+
+//namespace
+#helpers {
+  .np-border(@radius, @size, @color) {
+    border-radius: @radius;
+    -moz-border-radius: @radius;
+    -webkit-border-radius: @radius;
+    border: @size solid @color;
+  }
 }

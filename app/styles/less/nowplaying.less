@@ -4,9 +4,10 @@
 
 /* CSS DIRECTORY
   0. =COMMONS
-  1. =HEADER & FOOTER
-  2. =BODY
-  3. =PORTFOLIO
+  1. =HEADER
+  2. =VIDEO URL CONTAINER
+  3. =VIDEO WRAPPER
+  4. =VIDEO ITEM
 */
 
 // 0. COMMONS
@@ -14,13 +15,108 @@ body{
   background: @first-main-color;
   font-size: @base-font;
   .np-normal-font;
+  color: @third-main-color;
 }
 
 a{
   text-decoration: none;
 }
 
+.vid {
+  position: relative;
+  padding-bottom: 56.25%;
+  padding-top: 30px; height: 0; overflow: hidden;
+}
+
+.vid iframe,
+.vid object,
+.vid embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+// 1. HEADER
+header {
+  text-align: center;
+  h1 {
+    font-size: @header-title-font;
+    color: @second-main-color;
+    text-transform: uppercase;
+    margin: 30px;
+  }
+
+  p {
+    margin-bottom: 40px;
+  }
+}
+
+// 2. VIDEO URL CONTAINER
+.np-video-url {
+  background: @fourth-main-color;
+  padding: 20px 20px 5px;
+
+  input {
+    font-size: @input-font-size;
+    #helpers > .np-border(3px, 0, @fifth-main-color);
+  }
+
+  .np-tweet-button-container{
+    margin-right: 0;
+    padding-right: 0;
+  }
+
+  button {
+    height: 23px;
+    #helpers > .np-border(0, 0, @fifth-main-color);
+    color: @fifth-main-color;
+    background-color: @second-main-color;
+    font-size: 12px;
+    text-align: center;
+    line-height: @button-font-size;
+  }
+}
+
+// 3. Video Wrapper
+.np-video-wrapper{
+  margin-top: 40px;
+}
+
+// 4. Video Item
+.np-video-item {
+  background: @fifth-main-color;
+  margin-bottom: 20px;
+  padding: 0 0 20px;
+
+  h1{
+    font-size: @header-video-item-font-size;
+    margin: 15px;
+    font-weight: bold;
+  }
+
+  .np-twitter-name{
+    display: block;
+    min-width: 160px;
+    position: relative;
+    left: 10px;
+    top: 2px;
+  }
+
+  .np-tweet-text {
+    background: #EDEBE6;
+    font-size: @tweet-text-size;
+    margin-top: 15px;
+    padding: 15px;
+    height: auto;
+    overflow: auto;
+    max-height: 200px;
+  }
+}
+
 //css imports
 @import (css) "libs/reset.css";
-@import (css) "fonts/lato.css";
+@import (css) "libs/font-awesome.css";
+@import (css) "fonts/lato.css"; 
 @import (css) "libs/bootstrap.min.css";
