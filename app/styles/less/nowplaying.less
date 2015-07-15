@@ -1,0 +1,26 @@
+//less imports
+@import (less) "variables.less";
+@import (less) "mixins-styles.less";
+
+/* CSS DIRECTORY
+  0. =COMMONS
+  1. =HEADER & FOOTER
+  2. =BODY
+  3. =PORTFOLIO
+*/
+
+// 0. COMMONS
+body{
+  background: @first-main-color;
+  font-size: @base-font;
+  .np-normal-font;
+}
+
+a{
+  text-decoration: none;
+}
+
+//css imports
+@import (css) "libs/reset.css";
+@import (css) "fonts/lato.css";
+@import (css) "libs/bootstrap.min.css";

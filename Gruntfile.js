@@ -10,6 +10,10 @@ module.exports = function(grunt) {
             js: {
                 files: ['app/**/*.js'],
                 tasks: ['compile-js']
+            },
+            less: {
+                files: ['app/**/*.less'],
+                tasks: ['compile-less']
             }
         },
         // Compiles ES6 modules so we can use it in the browser.
@@ -39,15 +43,43 @@ module.exports = function(grunt) {
             }
         },
 
+        less: {
+            development: {
+                options: {
+                    paths: ["css"]
+                },
+                files: {
+                    "app/styles/nowplaying.css": "app/styles/less/nowplaying.less"
+                }
+            }
+        },
+
+        cssmin: {
+            target: {
+                files: [{
+                    expand: true,
+                    cwd: 'app/styles',
+                    src: ['*.css', '!*.min.css'],
+                    dest: 'app/styles',
+                    ext: '.min.css'
+                }]
+            }
+        }
+
 
     });
 
-
+    //libs
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-browserify');
-    grunt.registerTask('compile-js',['browserify','uglify'])
+    grunt.loadNpmTasks('grunt-contrib-less');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
+
+    //custom taks
+    grunt.registerTask('compile-js',['browserify','uglify']);
+    grunt.registerTask('compile-less',['less','cssmin']);
     grunt.registerTask('default', ['compile-js']);
-    grunt.registerTask('production', ['compile-js']);
+    grunt.registerTask('production', ['compile-js','less','cssmin']);
 
 };

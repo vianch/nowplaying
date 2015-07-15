@@ -28,10 +28,13 @@
   "devDependencies": {
     "angular": "^1.4.2",
     "babelify": "^6.1.3",
+    "bootstrap": "^3.3.5",
     "browserify": "^10.2.6",
     "grunt": "^0.4.5",
     "grunt-browserify": "^3.8.0",
     "grunt-cli": "^0.1.13",
+    "grunt-contrib-cssmin": "^0.12.3",
+    "grunt-contrib-less": "^1.0.1",
     "grunt-contrib-uglify": "^0.9.1",
     "grunt-contrib-watch": "^0.6.1",
     "gulp": "^3.9.0",
