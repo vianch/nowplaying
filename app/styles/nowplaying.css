@@ -21,27 +21,11 @@ body {
 a {
   text-decoration: none;
 }
-.vid {
-  position: relative;
-  padding-bottom: 56.25%;
-  padding-top: 30px;
-  height: 0;
-  overflow: hidden;
-}
-.vid iframe,
-.vid object,
-.vid embed {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
 header {
   text-align: center;
 }
 header h1 {
-  font-size: 2.75em;
+  font-size: 1.875em;
   color: #d3643b;
   text-transform: uppercase;
   margin: 30px;
@@ -89,6 +73,22 @@ header p {
   margin: 15px;
   font-weight: bold;
 }
+.np-video-item .vid {
+  position: relative;
+  padding-bottom: 56.25%;
+  padding-top: 30px;
+  height: 0;
+  overflow: hidden;
+}
+.np-video-item .vid iframe,
+.np-video-item .vid object,
+.np-video-item .vid embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
 .np-video-item .np-twitter-name {
   display: block;
   min-width: 160px;
@@ -102,6 +102,11 @@ header p {
   margin-top: 15px;
   padding: 15px;
   height: auto;
-  overflow: auto;
+  overflow-y: auto;
   max-height: 200px;
+  overflow-x: hidden;
+}
+.np-video-item .list-inline,
+.np-video-item small {
+  font-size: 0.75em;
 }
