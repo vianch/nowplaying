@@ -6,7 +6,7 @@ var TWEETS_BUFFER_SIZE = 3;
 var SOCKETIO_TWEETS_EVENT = 'tweet-io:tweets';
 var SOCKETIO_START_EVENT = 'tweet-io:start';
 var SOCKETIO_STOP_EVENT = 'tweet-io:stop';
-var SOCKETIO_STOP_EVENT = 'tweet-io:post';
+var SOCKETIO_STOP_POST = 'tweet-io:post';
 var SOCKETIO_GET_RECENT_TWEETS = 'tweet-io:recent';
 
 var HASHTAG = '#NowPlaying';
@@ -57,7 +57,6 @@ var handleClient = function(data, socket) {
     }
 };
 
-
 //socket on events
 io.sockets.on('connection', function(socket) {
 
@@ -74,8 +73,10 @@ io.sockets.on('connection', function(socket) {
     });
 
     socket.on(SOCKETIO_GET_RECENT_TWEETS, function(data) {
-        twitterApi.get('search/tweets', { q: HASHTAG, count: 2}, function(err, data, response) {
-            console.log(data)
+        twitterApi.get('search/tweets', { q: HASHTAG, count: 5}, function(err, data, response) {
+            if(!err) {
+                socket.emit(SOCKETIO_GET_RECENT_TWEETS, data.statuses);
+            }
         })
     });
 

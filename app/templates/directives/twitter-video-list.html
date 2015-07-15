@@ -17,15 +17,15 @@
             <div class="col-md-12 col-xs-12">
 
                 <div class="np-twitter-account-information pull-left">
-                    <img ng-src="{{tweet.user.image}}" width="48" height="48" alt="avatar" class="pull-left">
+                    <img ng-src="{{tweet.user.profile_image_url}}" width="48" height="48" alt="avatar" class="pull-left">
                         <span class="np-twitter-name">
                             <strong>{{tweet.user.name}} </strong>
-                            <small class="np-twitter-username">@johndoe</small>
+                            <small class="np-twitter-username">@{{tweet.user.screen_name}}</small>
 
                         </span>
                 </div>
                 <div class="np-follow-button pull-right">
-                    <twitter-button user="bunnyinc"></twitter-button>
+                    <twitter-button user="{{tweet.user.screen_name}}"></twitter-button>
                 </div>
             </div>
 
@@ -34,7 +34,7 @@
             </div>
 
             <div class="col-md-12 col-xs-12">
-                <div class="col-md-3 col-xs-4"><small>3 hours ago</small></div>
+                <div class="col-md-3 col-xs-4"><small>{{parseTwitterDate(tweet.created_at)}}</small></div>
                 <div class="col-md-9 col-xs-8">
                     <ul class="pull-right list-inline">
                         <li><i class="fa fa-reply"></i> Reply</li>
