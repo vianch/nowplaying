@@ -8,7 +8,7 @@ module.exports = function(grunt) {
         // Watches for changes in files and runs certain Grunt tasks.
         watch: {
             js: {
-                files: ['app/**/*.js'],
+                files: ['app/js/*.js'],
                 tasks: ['compile-js']
             },
             less: {
@@ -21,7 +21,7 @@ module.exports = function(grunt) {
         browserify: {
             dist: {
                 files: {
-                    'app/js/nowplaying.js': ['app/js/app.js'],
+                    'app/js/dist/nowplaying.js': ['app/js/app.js'],
                 },
                 options: {
                     transform: ['babelify'],
@@ -38,8 +38,8 @@ module.exports = function(grunt) {
                 banner: '/*! <%= grunt.template.today("yyyy-mm-dd") %> */\n'
             },
             build: {
-                src: 'app/js/nowplaying.js',
-                dest: 'app/js/nowplaying.min.js'
+                src: 'app/js/dist/nowplaying.js',
+                dest: 'app/js/dist/nowplaying.min.js'
             }
         },
 

@@ -11,6 +11,7 @@
   2. =VIDEO URL CONTAINER
   3. =VIDEO WRAPPER
   4. =VIDEO ITEM
+  -- =MEDIA QUERIES
 */
 body {
   background: #edebe6;
@@ -109,4 +110,13 @@ header p {
 .np-video-item .list-inline,
 .np-video-item small {
   font-size: 0.75em;
+}
+@media only screen and (max-width: 991px) {
+  .np-tweet-button-container {
+    margin-top: 15px;
+    padding: 0;
+  }
+  .np-tweet-container {
+    margin-top: 15px;
+  }
 }
