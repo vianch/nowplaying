@@ -1,0 +1,81 @@
+<!-- header -->
+<header class=" row">
+    <h1>#nowplaying in San Francisco</h1>
+    <p class="col-md-12 col-xs-12">This page shows #nowplaying tweets in San Francisco that contain a youtube link. It also allows you to post a #nowplaying tweet with a YouTube link.</p>
+</header>
+<!--/ header -->
+
+<!-- video url container -->
+<div class="np-video-url row">
+    <form role="form" name="form" class="form-horizontal">
+        <div class="col-md-12 col-xs-12">
+            <div class="form-group">
+                <input class="col-md-12 col-xs-12" type="url" class="form-control" name="url" id="url" placeholder="Video URL">
+            </div>
+        </div>
+
+        <div class="col-md-12 col-xs-12">
+            <div class="form-group">
+                <input class="col-md-10 col-xs-12"type="text" class="form-control" name="comment" id="comment" placeholder="Comment">
+                <div class="col-md-2 col-xs-12 np-tweet-button-container">
+                    <button type="submit" class="btn btn-default col-xs-12"> Tweet to #nowplaying</button>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+<!--/ video url container -->
+
+<!-- video list wrapper -->
+<div class="np-video-wrapper row">
+
+    <!-- video item-->
+    <div class="np-video-item col-md-12 col-xs-12">
+        <h1 class="np-video-title">Imagine Dragons – Night Visions (Official Video)</h1>
+
+        <!-- Video container -->
+        <div class="np-video-container col-md-6 col-xs-12">
+            <div class="vid">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/m0dF_1Vw6io" allowfullscreen=""></iframe>
+            </div><!--./vid -->
+        </div>
+
+        <!-- Tweet container -->
+        <div class="np-tweet-container col-md-6 col-xs-12">
+            <div class="col-md-12 col-xs-12">
+
+                <div class="np-twitter-account-information pull-left">
+                    <img src="images/avatar-icon.png" alt="avatar" class="pull-left">
+                        <span class="np-twitter-name">
+                            <strong>John Doe <i class="np-icon np-verify-twitter"></i></strong>
+                            <small class="np-twitter-username">@johndoe</small>
+                        </span>
+                </div>
+                <div class="np-follow-button pull-right">
+                    <a href="https://twitter.com/vianch_tog" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false">Follow @vianch_tog</a>
+                    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+                </div>
+            </div>
+
+            <div class="col-md-12 col-xs-12">
+                <p class="np-tweet-text">I love this song and band so much! http://youtu.be/DfgkAJmp9-A Can't wait to see them live. Listen! #nowplaying</p>
+            </div>
+
+            <div class="col-md-12 col-xs-12">
+                <div class="col-md-3 col-xs-4"><small>3 hours ago</small></div>
+                <div class="col-md-9 col-xs-8">
+                    <ul class="pull-right list-inline">
+                        <li><i class="fa fa-reply"></i> Reply</li>
+                        <li><i class="fa fa-retweet"></i> Retweet</li>
+                        <li><i class="fa fa-star"></i> Favorite</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!--/ video item -->
+
+</div>
+<!--/ video list wrapper -->
