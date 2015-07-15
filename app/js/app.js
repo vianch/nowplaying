@@ -2,7 +2,8 @@
 
 import angular from 'angular';
 import 'angular-route';
-import TwitterButton from './directives/twitterButton';
+import TwitterButton from './directives/twitterButtonDirective';
+import TweetVideo from './directives/TweetVideoDirective'
 
 function setup($routeProvider) {
     $routeProvider .when('/', {
@@ -14,6 +15,5 @@ setup.$inject = ['$routeProvider'];
 
 angular.module('NowPlayingApp', ['ngRoute'])
     .config(['$routeProvider', setup])
-    .directive('twitterButton',  () => new TwitterButton());
-
-
+    .directive('twitterButton',  () => new TwitterButton())
+    .directive('tweetVideo',  () => new TweetVideo());

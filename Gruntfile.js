@@ -8,7 +8,7 @@ module.exports = function(grunt) {
         // Watches for changes in files and runs certain Grunt tasks.
         watch: {
             js: {
-                files: ['app/js/*.js'],
+                files: ['app/js/*.js','app/js/directives/*.js'],
                 tasks: ['compile-js']
             },
             less: {
