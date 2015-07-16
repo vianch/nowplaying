@@ -22,6 +22,8 @@ Open console and type:
 ```
 $ npm install && npm start
 ```
+### Usage
+After installation go to the browser and type http://127.0.0.1:4444 or http://localhost:4444
 
 ## Design Specifications
 ### Typography
