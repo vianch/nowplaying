@@ -5,9 +5,17 @@ class TwitterVideoListController {
         this.scope = $scope;
         this.socket = socket;
         this.sce = $sce;
+        this.latitude = "";
+        this.longitude = "";
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(this.setPosition);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+
         this.initializeScopeData();
         this.loadFirstData();
-        this.streamTweets();
     }
 
     initializeScopeData() {
@@ -15,11 +23,18 @@ class TwitterVideoListController {
         this.scope.parseTwitterDate = (twitterDate) => this.parseTwitterDate(twitterDate);
     }
 
+    setPosition(position) {
+        this.latitude = position.coords.latitude
+        this.longitude = position.coords.longitude;
+    }
+
     loadFirstData() {
         this.socket.emit('tweet-io:recent', true);
         this.socket.on('tweet-io:recent',  (data) => {
             this.formatTweets(data);
+            this.streamTweets();
         });
+
     }
 
     streamTweets() {

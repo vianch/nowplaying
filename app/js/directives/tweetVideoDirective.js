@@ -32,6 +32,7 @@ class TweetVideoController {
         let tweetDataToSed = { videoUrl: this.scope.videoUrl, comment: this.scope.comment };
         this.socket.emit('tweet-io:post', tweetDataToSed);
         this.socket.on('tweet-io:post',  (data) => {
+            this.socket.emit('tweet-io:start', true);
             if(data) {
                 this.scope.showSucess = true;
                 this.scope.showUpdateError = false;

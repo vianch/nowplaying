@@ -125,6 +125,7 @@ var TweetVideoController = (function () {
             var tweetDataToSed = { videoUrl: this.scope.videoUrl, comment: this.scope.comment };
             this.socket.emit("tweet-io:post", tweetDataToSed);
             this.socket.on("tweet-io:post", function (data) {
+                _this2.socket.emit("tweet-io:start", true);
                 if (data) {
                     _this2.scope.showSucess = true;
                     _this2.scope.showUpdateError = false;
@@ -212,15 +213,15 @@ exports['default'] = TwitterButton;
 module.exports = exports['default'];
 
 },{}],4:[function(require,module,exports){
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var TwitterVideoListController = (function () {
     function TwitterVideoListController($scope, socket, $sce) {
@@ -229,13 +230,21 @@ var TwitterVideoListController = (function () {
         this.scope = $scope;
         this.socket = socket;
         this.sce = $sce;
+        this.latitude = "";
+        this.longitude = "";
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(this.setPosition);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+
         this.initializeScopeData();
         this.loadFirstData();
-        this.streamTweets();
     }
 
     _createClass(TwitterVideoListController, [{
-        key: 'initializeScopeData',
+        key: "initializeScopeData",
         value: function initializeScopeData() {
             var _this = this;
 
@@ -245,34 +254,41 @@ var TwitterVideoListController = (function () {
             };
         }
     }, {
-        key: 'loadFirstData',
+        key: "setPosition",
+        value: function setPosition(position) {
+            this.latitude = position.coords.latitude;
+            this.longitude = position.coords.longitude;
+        }
+    }, {
+        key: "loadFirstData",
         value: function loadFirstData() {
             var _this2 = this;
 
-            this.socket.emit('tweet-io:recent', true);
-            this.socket.on('tweet-io:recent', function (data) {
+            this.socket.emit("tweet-io:recent", true);
+            this.socket.on("tweet-io:recent", function (data) {
                 _this2.formatTweets(data);
+                _this2.streamTweets();
             });
         }
     }, {
-        key: 'streamTweets',
+        key: "streamTweets",
         value: function streamTweets() {
             var _this3 = this;
 
-            this.socket.emit('tweet-io:start', true);
-            this.socket.on('tweet-io:tweets', function (data) {
+            this.socket.emit("tweet-io:start", true);
+            this.socket.on("tweet-io:tweets", function (data) {
                 _this3.formatTweets(data);
             });
         }
     }, {
-        key: 'formatTweets',
+        key: "formatTweets",
         value: function formatTweets(data) {
             var youtubeId = null;
             for (var iterator = 0, tweetsLength = data.length; iterator < tweetsLength; iterator++) {
                 if (data[iterator].entities && data[iterator].entities.urls[0]) {
                     youtubeId = this.youtubeIdParser(data[iterator].entities.urls[0].expanded_url);
                     if (youtubeId !== undefined && youtubeId !== null) {
-                        data[iterator].entities.urls[0].expanded_url = this.sce.trustAsResourceUrl('https://www.youtube.com/embed/' + youtubeId);
+                        data[iterator].entities.urls[0].expanded_url = this.sce.trustAsResourceUrl("https://www.youtube.com/embed/" + youtubeId);
                         data[iterator].entities.showTweet = true;
                     } else {
                         data[iterator].entities.showTweet = false;
@@ -282,53 +298,53 @@ var TwitterVideoListController = (function () {
             this.scope.tweets = this.scope.tweets.concat(data);
         }
     }, {
-        key: 'youtubeIdParser',
+        key: "youtubeIdParser",
         value: function youtubeIdParser(url) {
             var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
             var match = url.match(regExp);
             return match && match[7].length === 11 ? match[7] : null;
         }
     }, {
-        key: 'parseTwitterDate',
+        key: "parseTwitterDate",
         value: function parseTwitterDate(twitterDate) {
             var system_date = new Date(Date.parse(twitterDate));
             var user_date = new Date();
 
             var diff = Math.floor((user_date - system_date) / 1000);
             if (diff <= 1) {
-                return 'just now';
+                return "just now";
             }
             if (diff < 20) {
-                return diff + ' seconds ago';
+                return diff + " seconds ago";
             }
             if (diff < 40) {
-                return 'half a minute ago';
+                return "half a minute ago";
             }
             if (diff < 60) {
-                return 'less than a minute ago';
+                return "less than a minute ago";
             }
             if (diff <= 90) {
-                return 'one minute ago';
+                return "one minute ago";
             }
             if (diff <= 3540) {
-                return Math.round(diff / 60) + ' minutes ago';
+                return Math.round(diff / 60) + " minutes ago";
             }
             if (diff <= 5400) {
-                return '1 hour ago';
+                return "1 hour ago";
             }
             if (diff <= 86400) {
-                return Math.round(diff / 3600) + ' hours ago';
+                return Math.round(diff / 3600) + " hours ago";
             }
             if (diff <= 129600) {
-                return '1 day ago';
+                return "1 day ago";
             }
             if (diff < 604800) {
-                return Math.round(diff / 86400) + ' days ago';
+                return Math.round(diff / 86400) + " days ago";
             }
             if (diff <= 777600) {
-                return '1 week ago';
+                return "1 week ago";
             }
-            return 'on ' + system_date;
+            return "on " + system_date;
         }
     }]);
 
@@ -338,16 +354,16 @@ var TwitterVideoListController = (function () {
 var TwitterVideoList = function TwitterVideoList() {
     _classCallCheck(this, TwitterVideoList);
 
-    this.templateUrl = 'templates/directives/twitter-video-list.html';
-    this.restrict = 'E';
+    this.templateUrl = "templates/directives/twitter-video-list.html";
+    this.restrict = "E";
     this.scope = {};
-    this.controller = ['$scope', 'socket', '$sce', function ($scope, socket, $sce) {
+    this.controller = ["$scope", "socket", "$sce", function ($scope, socket, $sce) {
         new TwitterVideoListController($scope, socket, $sce);
     }];
 };
 
-exports['default'] = TwitterVideoList;
-module.exports = exports['default'];
+exports["default"] = TwitterVideoList;
+module.exports = exports["default"];
 
 },{}],5:[function(require,module,exports){
 /**

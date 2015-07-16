@@ -10,8 +10,10 @@ var SOCKETIO_POST_TWEET = 'tweet-io:post';
 var SOCKETIO_GET_RECENT_TWEETS = 'tweet-io:recent';
 
 var HASHTAG = '#NowPlaying';
-
 var nbOpenSockets = 0;
+var firstConnection = true;
+var tweetsBuffer = [];
+var oldTweetsBuffer = [];
 
 var twitterApi = new Twit({
     consumer_key:         'gEFEbGdkVTDfzVgyiiCbzUImi',
@@ -20,12 +22,8 @@ var twitterApi = new Twit({
     access_token_secret:  'iESkAmBbHXWaCHLrkXN89CUyigMMZ5QHboNYsczUDQLlg'
 });
 
-var firstConnection = true;
-
-var stream = twitterApi.stream('statuses/filter', { track: HASHTAG+' youtube', location: [4.7100000,-74.0700000] });
-
-var tweetsBuffer = [];
-var oldTweetsBuffer = [];
+//TODO: location: [4.7100000,-74.0700000] GEOCODE IS NOT WORKING ON TWITTER
+var stream = twitterApi.stream('statuses/filter', { track: 'youtube' });
 
 //Handle Socket.IO events
 var discardClient = function() {
@@ -83,7 +81,8 @@ io.sockets.on('connection', function(socket) {
     socket.on(SOCKETIO_GET_RECENT_TWEETS, function(data) {
         if(data) {
             console.log("finding tweets...");
-            twitterApi.get('search/tweets', { q: HASHTAG+' youtube', count: 5, include_entities:true }, function(err, data, response) {
+            //TODO: geocode:'4.6473605,-74.0565511,350km' GEOCODE IS NOT WORKING ON TWITTER
+            twitterApi.get('search/tweets', { q: HASHTAG+' youtube', count: TWEETS_BUFFER_SIZE, include_entities:true }, function(err, data, response) {
                 if(!err) {
                     socket.emit(SOCKETIO_GET_RECENT_TWEETS, data.statuses);
                 }
@@ -116,7 +115,7 @@ stream.on('tweet', function(tweet) {
     }
 
     //push msg into buffer
-    console("Loading more tweets...");
+    console.log("Loading more tweets...");
     tweetsBuffer.push(tweet);
 
     broadcastTweets();
