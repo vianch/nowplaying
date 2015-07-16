@@ -23,7 +23,7 @@ var twitterApi = new Twit({
 });
 
 //TODO: location: [4.7100000,-74.0700000] GEOCODE IS NOT WORKING ON TWITTER
-var stream = twitterApi.stream('statuses/filter', { track: 'youtube' });
+var stream = twitterApi.stream('statuses/filter', { track: HASHTAG+' youtube' });
 
 //Handle Socket.IO events
 var discardClient = function() {
