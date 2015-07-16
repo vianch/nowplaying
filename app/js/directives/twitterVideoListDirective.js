@@ -48,8 +48,8 @@ class TwitterVideoListController {
      youtubeIdParser(url){
         var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
         var match = url.match(regExp);
-        return (match&&match[7].length==11) ? match[7]: null;
-    }
+        return (match&&match[7].length===11) ? match[7]: null;
+     }
 
     parseTwitterDate(twitterDate) {
         let system_date = new Date(Date.parse(twitterDate));

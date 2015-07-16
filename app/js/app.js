@@ -5,12 +5,9 @@ import io from 'socket.io-client';
 import 'angular-route';
 import twitterApi from 'twitter-node-client';
 
-
-
 import TwitterButton from './directives/twitterButtonDirective';
 import TweetVideo from './directives/tweetVideoDirective';
 import TwitterVideoList from './directives/twitterVideoListDirective.js'
-
 
 function setup($routeProvider) {
     $routeProvider .when('/', {
@@ -51,4 +48,3 @@ angular.module('NowPlayingApp', ['ngRoute'])
     .directive('tweetVideo',  () => new TweetVideo())
     .directive('twitterVideoList',  () => new TwitterVideoList())
     .factory('socket', socketEvents);
-

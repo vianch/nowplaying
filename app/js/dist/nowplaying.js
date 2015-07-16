@@ -95,25 +95,62 @@ var TweetVideoController = (function () {
         value: function initializeScope() {
             var _this = this;
 
-            this.scope.videoUrl = "";
-            this.scope.comment = "";
-            this.scope.postTweet = function () {
-                return _this.postTweet();
+            this.resetForm();
+            this.scope.updateMessage = "";
+            this.scope.showUpdateError = false;
+            this.scope.showSucess = false;
+            this.scope.postTweetAction = function () {
+                return _this.postTweetAction();
             };
         }
     }, {
-        key: "postTweet",
-        value: function postTweet() {
-            var tweetDataToSed = {
-                videoUrl: this.scope.videoUrl,
-                comment: this.scope.comment
-            };
+        key: "postTweetAction",
+        value: function postTweetAction() {
+            var commentLength = this.scope.comment.length;
+            var tweetLength = this.scope.videoUrl.length + commentLength + 12;
+            if (tweetLength <= 140) {
+                if (commentLength > 2 && this.isValidYoutubeUrl()) {
+                    this.scope.showSucess = false;
+                    this.postTweetEvent();
+                } else {
+                    this.postTweetErrorHandler("You need a valid youtube url or valid comment");
+                }
+            }
+        }
+    }, {
+        key: "postTweetEvent",
+        value: function postTweetEvent() {
+            var _this2 = this;
+
+            var tweetDataToSed = { videoUrl: this.scope.videoUrl, comment: this.scope.comment };
             this.socket.emit("tweet-io:post", tweetDataToSed);
             this.socket.on("tweet-io:post", function (data) {
                 if (data) {
-                    console.log("Successfull post data");
+                    _this2.scope.showSucess = true;
+                    _this2.scope.showUpdateError = false;
+                    _this2.resetForm();
+                } else {
+                    _this2.postTweetErrorHandler("Error trying to update status");
                 }
             });
+        }
+    }, {
+        key: "postTweetErrorHandler",
+        value: function postTweetErrorHandler(message) {
+            this.scope.showUpdateError = true;
+            this.scope.showSucess = false;
+            this.scope.updateMessage = message;
+        }
+    }, {
+        key: "isValidYoutubeUrl",
+        value: function isValidYoutubeUrl() {
+            return this.scope.videoUrl.match(/^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/);
+        }
+    }, {
+        key: "resetForm",
+        value: function resetForm() {
+            this.scope.videoUrl = "";
+            this.scope.comment = "";
         }
     }]);
 
@@ -249,7 +286,7 @@ var TwitterVideoListController = (function () {
         value: function youtubeIdParser(url) {
             var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
             var match = url.match(regExp);
-            return match && match[7].length == 11 ? match[7] : null;
+            return match && match[7].length === 11 ? match[7] : null;
         }
     }, {
         key: 'parseTwitterDate',

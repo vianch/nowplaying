@@ -65,6 +65,16 @@ header p {
   margin-right: 0;
   padding-right: 0;
 }
+.np-video-url .np-tweet-button-container .btn-disable {
+  background: #e8e8e8;
+  color: #b5b5b5;
+  cursor: default;
+  border: none;
+}
+.np-video-url .np-tweet-button-container .btn-disable:hover,
+.np-video-url .np-tweet-button-container .btn-disable:active {
+  border: none;
+}
 .np-video-url button {
   height: 23px;
   border-radius: 0;

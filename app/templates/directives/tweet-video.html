@@ -1,4 +1,6 @@
 <div class="np-video-url row">
+    <div ng-show = "showSucess" class="alert alert-success" role="alert"><strong><i class="fa fa-thumbs-o-up"></i> Congratulations </strong> update successful! </div>
+    <div ng-show = "showUpdateError" class="alert alert-danger" role="alert"><strong><i class="fa fa-thumbs-o-down"></i> Error </strong> {{updateMessage}}</div>
     <form role="form" name="form" class="form-horizontal">
         <div class="col-md-12 col-xs-12">
             <div class="form-group">
@@ -10,7 +12,8 @@
             <div class="form-group">
                 <input class="col-md-10 col-xs-12 " type="text" name="comment" id="comment" placeholder="Comment"  maxlength="128" ng-model="comment">
                 <div class="col-md-2 col-xs-12 np-tweet-button-container">
-                    <button type="submit" class="btn btn-default col-xs-12" ng-click="postTweet()"> Tweet to #nowplaying</button>
+                    <button ng-class ="{false:'btn-disable', true:''}[videoUrl.length + comment.length +12 <= 140]" type="submit" class="btn btn-default col-xs-12" ng-click="postTweetAction()"> Tweet to #nowplaying</button>
+
                 </div>
             </div>
         </div>

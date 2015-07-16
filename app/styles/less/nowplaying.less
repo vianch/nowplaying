@@ -67,6 +67,15 @@ header {
   .np-tweet-button-container{
     margin-right: 0;
     padding-right: 0;
+    .btn-disable {
+      background: @main-disable-color;
+      color: @second-disable-color;
+      cursor: default;
+      border: none;
+      &:hover, &:active{
+        border: none;
+      }
+    }
   }
 
   button {
