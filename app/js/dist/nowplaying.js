@@ -82,18 +82,38 @@ var _createClass = (function () { function defineProperties(target, props) { for
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var TweetVideoController = (function () {
-    function TweetVideoController($scope) {
+    function TweetVideoController($scope, socket) {
         _classCallCheck(this, TweetVideoController);
 
         this.scope = $scope;
+        this.socket = socket;
         this.initializeScope();
     }
 
     _createClass(TweetVideoController, [{
         key: "initializeScope",
         value: function initializeScope() {
+            var _this = this;
+
             this.scope.videoUrl = "";
             this.scope.comment = "";
+            this.scope.postTweet = function () {
+                return _this.postTweet();
+            };
+        }
+    }, {
+        key: "postTweet",
+        value: function postTweet() {
+            var tweetDataToSed = {
+                videoUrl: this.scope.videoUrl,
+                comment: this.scope.comment
+            };
+            this.socket.emit("tweet-io:post", tweetDataToSed);
+            this.socket.on("tweet-io:post", function (data) {
+                if (data) {
+                    console.log("Successfull post data");
+                }
+            });
         }
     }]);
 
@@ -106,8 +126,8 @@ var TweetVideo = function TweetVideo() {
     this.templateUrl = "templates/directives/tweet-video.html";
     this.restrict = "E";
     this.scope = {};
-    this.controller = ["$scope", function ($scope) {
-        new TweetVideoController($scope);
+    this.controller = ["$scope", "socket", function ($scope, socket) {
+        new TweetVideoController($scope, socket);
     }];
 };
 
@@ -166,13 +186,15 @@ var _createClass = (function () { function defineProperties(target, props) { for
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 var TwitterVideoListController = (function () {
-    function TwitterVideoListController($scope, socket) {
+    function TwitterVideoListController($scope, socket, $sce) {
         _classCallCheck(this, TwitterVideoListController);
 
         this.scope = $scope;
         this.socket = socket;
+        this.sce = $sce;
         this.initializeScopeData();
-        this.findTweets();
+        this.loadFirstData();
+        this.streamTweets();
     }
 
     _createClass(TwitterVideoListController, [{
@@ -186,16 +208,48 @@ var TwitterVideoListController = (function () {
             };
         }
     }, {
-        key: 'findTweets',
-        value: function findTweets() {
+        key: 'loadFirstData',
+        value: function loadFirstData() {
             var _this2 = this;
 
             this.socket.emit('tweet-io:recent', true);
-
             this.socket.on('tweet-io:recent', function (data) {
-                console.log(data);
-                _this2.scope.tweets = data;
+                _this2.formatTweets(data);
             });
+        }
+    }, {
+        key: 'streamTweets',
+        value: function streamTweets() {
+            var _this3 = this;
+
+            this.socket.emit('tweet-io:start', true);
+            this.socket.on('tweet-io:tweets', function (data) {
+                _this3.formatTweets(data);
+            });
+        }
+    }, {
+        key: 'formatTweets',
+        value: function formatTweets(data) {
+            var youtubeId = null;
+            for (var iterator = 0, tweetsLength = data.length; iterator < tweetsLength; iterator++) {
+                if (data[iterator].entities && data[iterator].entities.urls[0]) {
+                    youtubeId = this.youtubeIdParser(data[iterator].entities.urls[0].expanded_url);
+                    if (youtubeId !== undefined && youtubeId !== null) {
+                        data[iterator].entities.urls[0].expanded_url = this.sce.trustAsResourceUrl('https://www.youtube.com/embed/' + youtubeId);
+                        data[iterator].entities.showTweet = true;
+                    } else {
+                        data[iterator].entities.showTweet = false;
+                    }
+                }
+            }
+            this.scope.tweets = this.scope.tweets.concat(data);
+        }
+    }, {
+        key: 'youtubeIdParser',
+        value: function youtubeIdParser(url) {
+            var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+            var match = url.match(regExp);
+            return match && match[7].length == 11 ? match[7] : null;
         }
     }, {
         key: 'parseTwitterDate',
@@ -250,8 +304,8 @@ var TwitterVideoList = function TwitterVideoList() {
     this.templateUrl = 'templates/directives/twitter-video-list.html';
     this.restrict = 'E';
     this.scope = {};
-    this.controller = ['$scope', 'socket', function ($scope, socket) {
-        new TwitterVideoListController($scope, socket);
+    this.controller = ['$scope', 'socket', '$sce', function ($scope, socket, $sce) {
+        new TwitterVideoListController($scope, socket, $sce);
     }];
 };
 
@@ -1258,7 +1312,7 @@ module.exports = 'ngRoute';
 
 },{"./angular-route":5}],7:[function(require,module,exports){
 /**
- * @license AngularJS v1.4.3
+ * @license AngularJS v1.4.2
  * (c) 2010-2015 Google, Inc. http://angularjs.org
  * License: MIT
  */
@@ -1316,7 +1370,7 @@ function minErr(module, ErrorConstructor) {
       return match;
     });
 
-    message += '\nhttp://errors.angularjs.org/1.4.3/' +
+    message += '\nhttp://errors.angularjs.org/1.4.2/' +
       (module ? module + '/' : '') + code;
 
     for (i = SKIP_INDEXES, paramPrefix = '?'; i < templateArgs.length; i++, paramPrefix = '&') {
@@ -3587,6 +3641,7 @@ function toDebugString(obj) {
   $$TestabilityProvider,
   $TimeoutProvider,
   $$RAFProvider,
+  $$AsyncCallbackProvider,
   $WindowProvider,
   $$jqLiteProvider,
   $$CookieReaderProvider
@@ -3608,11 +3663,11 @@ function toDebugString(obj) {
  * - `codeName` – `{string}` – Code name of the release, such as "jiggling-armfat".
  */
 var version = {
-  full: '1.4.3',    // all of these placeholder strings will be replaced by grunt's
+  full: '1.4.2',    // all of these placeholder strings will be replaced by grunt's
   major: 1,    // package task
   minor: 4,
-  dot: 3,
-  codeName: 'foam-acceleration'
+  dot: 2,
+  codeName: 'nebular-readjustment'
 };
 
 
@@ -3747,6 +3802,7 @@ function publishExternalAPI(angular) {
         $timeout: $TimeoutProvider,
         $window: $WindowProvider,
         $$rAF: $$RAFProvider,
+        $$asyncCallback: $$AsyncCallbackProvider,
         $$jqLite: $$jqLiteProvider,
         $$HashMap: $$HashMapProvider,
         $$cookieReader: $$CookieReaderProvider
@@ -29620,7 +29676,7 @@ var minlengthDirective = function() {
 
 })(window, document);
 
-!window.angular.$$csp() && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
+!window.angular.$$csp() && window.angular.element(document).find('head').prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
 },{}],8:[function(require,module,exports){
 require('./angular');
 module.exports = angular;

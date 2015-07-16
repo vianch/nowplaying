@@ -2,13 +2,13 @@
 <div class="np-video-wrapper row">
 
     <!-- video item-->
-    <div class="np-video-item col-md-12 col-xs-12" ng-repeat="tweet in tweets">
-        <h1 class="np-video-title">Imagine Dragons – Night Visions (Official Video)</h1>
+    <div class="np-video-item col-md-12 col-xs-12" ng-repeat="tweet in tweets" ng-if="tweet.entities.showTweet">
+        <h1 class="np-video-title"></h1>
 
         <!-- Video container -->
         <div class="np-video-container col-md-6 col-xs-12">
             <div class="vid">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/m0dF_1Vw6io" allowfullscreen=""></iframe>
+                <iframe width="560" height="315" ng-src="{{tweet.entities.urls[0].expanded_url}}" allowfullscreen=""></iframe>
             </div><!--./vid -->
         </div>
 

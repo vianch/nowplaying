@@ -1,11 +1,13 @@
 "use strict";
 
 class TwitterVideoListController {
-    constructor($scope,socket) {
+    constructor($scope,socket,$sce) {
         this.scope = $scope;
         this.socket = socket;
+        this.sce = $sce;
         this.initializeScopeData();
-        this.findTweets();
+        this.loadFirstData();
+        this.streamTweets();
     }
 
     initializeScopeData() {
@@ -13,13 +15,40 @@ class TwitterVideoListController {
         this.scope.parseTwitterDate = (twitterDate) => this.parseTwitterDate(twitterDate);
     }
 
-    findTweets() {
+    loadFirstData() {
         this.socket.emit('tweet-io:recent', true);
-
         this.socket.on('tweet-io:recent',  (data) => {
-            console.log(data);
-            this.scope.tweets = data;
+            this.formatTweets(data);
         });
+    }
+
+    streamTweets() {
+        this.socket.emit('tweet-io:start', true);
+        this.socket.on('tweet-io:tweets',  (data) => {
+           this.formatTweets(data);
+        });
+    }
+
+    formatTweets(data) {
+        let youtubeId = null;
+        for(let iterator = 0, tweetsLength = data.length; iterator < tweetsLength; iterator++) {
+            if(data[iterator].entities && data[iterator].entities.urls[0]) {
+                youtubeId = this.youtubeIdParser(data[iterator].entities.urls[0].expanded_url);
+                if(youtubeId !== undefined && youtubeId !== null) {
+                    data[iterator].entities.urls[0].expanded_url = this.sce.trustAsResourceUrl("https://www.youtube.com/embed/"+youtubeId);
+                    data[iterator].entities.showTweet = true;
+                } else {
+                    data[iterator].entities.showTweet = false;
+                }
+            }
+        }
+        this.scope.tweets = this.scope.tweets.concat(data);
+    }
+
+     youtubeIdParser(url){
+        var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+        var match = url.match(regExp);
+        return (match&&match[7].length==11) ? match[7]: null;
     }
 
     parseTwitterDate(twitterDate) {
@@ -51,8 +80,9 @@ export default class TwitterVideoList {
         this.controller = [
             "$scope",
             "socket",
-            ($scope,socket) => {
-                new TwitterVideoListController($scope,socket);
+            "$sce",
+            ($scope,socket,$sce) => {
+                new TwitterVideoListController($scope,socket,$sce);
             }
         ];
     }

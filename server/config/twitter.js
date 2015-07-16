@@ -1,12 +1,12 @@
 var Twit = require('twit');
 var io = require('../app').io;
-var TWEETS_BUFFER_SIZE = 3;
+var TWEETS_BUFFER_SIZE = 5;
 
 //events
 var SOCKETIO_TWEETS_EVENT = 'tweet-io:tweets';
 var SOCKETIO_START_EVENT = 'tweet-io:start';
 var SOCKETIO_STOP_EVENT = 'tweet-io:stop';
-var SOCKETIO_STOP_POST = 'tweet-io:post';
+var SOCKETIO_POST_TWEET = 'tweet-io:post';
 var SOCKETIO_GET_RECENT_TWEETS = 'tweet-io:recent';
 
 var HASHTAG = '#NowPlaying';
@@ -20,8 +20,9 @@ var twitterApi = new Twit({
     access_token_secret:  'iESkAmBbHXWaCHLrkXN89CUyigMMZ5QHboNYsczUDQLlg'
 });
 
+var firstConnection = true;
 
-var stream = twitterApi.stream('statuses/filter', { track: HASHTAG, location: [4.7100000,-74.0700000] });
+var stream = twitterApi.stream('statuses/filter', { track: HASHTAG+' youtube', location: [4.7100000,-74.0700000] });
 
 var tweetsBuffer = [];
 var oldTweetsBuffer = [];
@@ -39,7 +40,7 @@ var discardClient = function() {
 };
 
 var handleClient = function(data, socket) {
-    if (data == true) {
+    if (data) {
         console.log('Client connected !');
 
         if (nbOpenSockets <= 0) {
@@ -66,27 +67,39 @@ io.sockets.on('connection', function(socket) {
 
     socket.on(SOCKETIO_STOP_EVENT, discardClient);
 
-    socket.on(SOCKETIO_STOP_EVENT, function(data) {
-        twitterApi.post('statuses/update', { status: 'hello world! '+HASHTAG }, function(err, data, response) {
-            console.log(data)
-        });
+    socket.on(SOCKETIO_POST_TWEET, function(data) {
+        if(data) {
+            var updateSuccess = true;
+            twitterApi.post('statuses/update', { status: data.comment+' '+data.videoUrl+' '+HASHTAG }, function(err, data, response) {
+                console.log(data)
+                if(err) {
+                    updateSuccess = false;
+                }
+                socket.emit(SOCKETIO_POST_TWEET, updateSuccess);
+            });
+        }
     });
 
     socket.on(SOCKETIO_GET_RECENT_TWEETS, function(data) {
-        twitterApi.get('search/tweets', { q: HASHTAG, count: 5}, function(err, data, response) {
-            if(!err) {
-                socket.emit(SOCKETIO_GET_RECENT_TWEETS, data.statuses);
-            }
-        })
+        if(data) {
+            console.log("finding tweets...");
+            twitterApi.get('search/tweets', { q: HASHTAG+' youtube', count: 5, include_entities:true }, function(err, data, response) {
+                if(!err) {
+                    socket.emit(SOCKETIO_GET_RECENT_TWEETS, data.statuses);
+                }
+            })
+        }
     });
 
     socket.on('disconnect', discardClient);
 });
 
-
 //Handle streaming Twitter events
 stream.on('connect', function(request) {
-    console.log('Connected to Twitter API');
+    if(firstConnection) {
+        console.log('Connected to Twitter API');
+        firstConnection = false;
+    }
 });
 
 stream.on('disconnect', function(message) {
@@ -102,18 +115,9 @@ stream.on('tweet', function(tweet) {
         return ;
     }
 
-    //Create message containing tweet + location + username + profile pic
-    var msg = {};
-    msg.text = tweet.text;
-    msg.location = tweet.place.full_name;
-    msg.user = {
-        name: tweet.user.name,
-        image: tweet.user.profile_image_url
-    };
-
-
     //push msg into buffer
-    tweetsBuffer.push(msg);
+    console("Loading more tweets...");
+    tweetsBuffer.push(tweet);
 
     broadcastTweets();
 });

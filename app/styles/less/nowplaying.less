@@ -8,6 +8,7 @@
   2. =VIDEO URL CONTAINER
   3. =VIDEO WRAPPER
   4. =VIDEO ITEM
+  -- =MEDIA QUERIES
 */
 
 // 0. COMMONS
@@ -42,7 +43,7 @@ a{
 header {
   text-align: center;
   h1 {
-    font-size: @header-title-font;
+    font-size: @header-video-item-font-size;
     color: @second-main-color;
     text-transform: uppercase;
     margin: 30px;
@@ -105,13 +106,30 @@ header {
   }
 
   .np-tweet-text {
-    background: #EDEBE6;
+    background: @first-main-color;
     font-size: @tweet-text-size;
     margin-top: 15px;
     padding: 15px;
     height: auto;
-    overflow: auto;
+    overflow-y: auto;
     max-height: 200px;
+    overflow-x: hidden;;
+  }
+}
+
+.np-video-item .list-inline,
+.np-video-item small {
+  font-size: @button-font-size;
+}
+
+// -- =MEDIA QUERIES
+@media only screen and (max-width: 991px) {
+  .np-tweet-button-container {
+    margin-top: 15px;
+    padding: 0;
+  }
+  .np-tweet-container {
+    margin-top: 15px;
   }
 }
 
