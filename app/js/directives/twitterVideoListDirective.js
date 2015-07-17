@@ -15,8 +15,7 @@ class TwitterVideoListController {
         }
 
         this.initializeScopeData();
-        this.streamTweets();
-        
+        this.loadFirstData();
     }
 
     initializeScopeData() {
