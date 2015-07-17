@@ -11,11 +11,12 @@ class TwitterVideoListController {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(this.setPosition);
         } else {
-            x.innerHTML = "Geolocation is not supported by this browser.";
+           console.log("Geolocation is not supported by this browser.");
         }
 
         this.initializeScopeData();
-        this.loadFirstData();
+        this.streamTweets();
+        
     }
 
     initializeScopeData() {
